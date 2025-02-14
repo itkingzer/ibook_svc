@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iface</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body style="background-color: rgb(58,59,60);" data-bs-theme="dark">
+  <%- include('navbartap')%>
+  <div class="container-sm d-flex justify-content-center">
+      <div class="card my-2 rounded-4"  style="width: 40rem;">
+        <div class="card-body">
+          
+          <div class="d-flex flex-column align-items-center justify-content-center rounded-circle">
+            <img src="/asset/img/profilepicture/<%=img%>" class="card-img rounded-circle" id="profileImg" style="cursor: pointer; width: 20rem; height: 20rem; object-fit: contain;" alt="Profile Picture">
+            <h5>Profile_Pic</h5>
+          </div>
+            <form class=" mx-5" id="profileForm" method="post" action="/profile/<%=user_id%>/Save" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp" value="<%=name%>">
+              </div>
+              <div class="mb-3 row">
+                <label  class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly id="email" class="form-control-plaintext" id="staticEmail" value="<%=email%>">
+                </div>
+              </div>
+              <div class="mb-3 row">
+                <label  class="col-sm-2 col-form-label">CreatedAt :</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="<%=createdAt%>">
+                </div>
+              </div>
+              <input type="file" name="upload_img" id="imgUpload" style="display: none;" accept="image/*">
+              <button type="submit" class="btn btn-primary w-100" id="Save-btn">Save</button>
+            </form>
+        </div>
+      </div>
+</div>
+
+</body>
+</html>
+
+
+<script>
+// เมื่อคลิกที่รูป ให้เปิด input file
+document.getElementById('profileImg').addEventListener('click', () => {
+  document.getElementById('imgUpload').click();
+});
+
+// เมื่อเลือกไฟล์ใหม่
+document.getElementById('imgUpload').addEventListener('change', (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    // แสดงภาพที่เลือกไว้ทันทีโดยใช้ FileReader
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById('profileImg').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+</script>
+

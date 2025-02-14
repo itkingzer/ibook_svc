@@ -1,0 +1,61 @@
+<div class="d-flex justify-content-center my-5">
+    <div  style="width: 30rem;">
+
+        <div class="d-flex align-items-center ">
+            <img src="asset\img\profilepicture\<%=img%>" class="rounded-2"  width="80" height="80" style="object-fit: fill;">
+            <button class=" btn btn-secondary w-100 mx-3" style="text-align: left;" data-bs-theme="dark" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" >what are you thinking? : <%=name%> </button>
+            <i class="fa-solid fa-plus fs-5"></i>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Create Post</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="Post" action="/addPost" enctype="multipart/form-data">
+            <div class="mb-3">
+              <img src="/asset/img/post_picture/Default_img_upload.png"  id="post_picture" style="cursor: pointer; width: 100%; height: 20rem; object-fit: contain;" alt="Profile Picture">
+              <input type="file" name="upload_img" id="post_Upload" style="display: none;" accept="image/*">
+            </div>
+            <div class="mb-3">
+                <label for="message-text" class="col-form-label">Title:</label>
+                <input type="text" class="form-control" name="title">
+              </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" cols="30" rows="4" name="description"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary w-100" >POST</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script>
+    // เมื่อคลิกที่รูปภาพ ให้ทำการเปิด input file
+    document.getElementById('post_picture').addEventListener('click', () => {
+      document.getElementById('post_Upload').click();
+    });
+  
+    // แสดงภาพที่เลือกในทันทีเมื่อผู้ใช้เลือกไฟล์
+    document.getElementById('post_Upload').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById('post_picture').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>

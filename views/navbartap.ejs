@@ -1,0 +1,50 @@
+<nav class="navbar sticky-top navbar-expand-sm bg-dark" data-bs-theme="dark">
+  <div class="container-fluid">
+      <div class="d-flex align-items-center justify-content-between w-100">
+        <a class="navbar-brand" href="#"><img src="/asset/img/logo/IBOOK.png" width="40"></a>
+
+        <ul class="navbar-nav d-flex flex-row">
+            <li class="nav-item mx-3">
+                <a class="nav-link active fs-4" aria-current="page" href="/"><i class="fa-solid fa-house"></i></a>
+            </li>
+            <li class="nav-item mx-3">
+                <a class="nav-link fs-4" href="#"><i class="fa-solid fa-envelope"></i></a>
+            </li>
+            <li class="nav-item mx-3" id="profile-link">
+                <a class="nav-link fs-4" href="/profile/<%=user_id%>"><i class="fa-solid fa-user"></i></a>
+            </li>
+        </ul>
+        
+        <div class="dropdown">
+          <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-bars fs-4" style="color: white;"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end w-100">
+            <li><a class="dropdown-item" href="/profile/<%=user_id%>">Profile</a></li>
+            <hr>
+            <li><a class="dropdown-item text-center" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> LOGOUT</a></li>
+          </ul>
+        </div>
+
+      </div>
+  </div>
+</nav>
+<script>
+  // ตรวจสอบ URL ปัจจุบัน
+  const currentUrl = window.location.pathname;
+  const navLinks = document.querySelectorAll('.nav-link');  // หาลิงก์ทั้งหมดใน navbar
+
+  // ลบคลาส active ออกจากทุกๆ ลิงก์ใน navbar
+  navLinks.forEach(link => {
+      link.classList.remove('active');
+  });
+
+  // ตรวจสอบว่า URL ปัจจุบันตรงกับ /profile/:user_id หรือไม่
+  if (currentUrl.startsWith('/profile/')) {
+      // ถ้าตรง, ให้เพิ่มคลาส active กับลิงก์ที่เกี่ยวข้อง
+      document.querySelector('#profile-link .nav-link').classList.add('active');
+  } else if (currentUrl === '/') {
+      // ถ้า URL เป็นหน้าแรก / ให้เพิ่มคลาส active ที่ลิงก์ของหน้า index
+      document.querySelector('.nav-link[href="/"]').classList.add('active');
+  }
+</script>
