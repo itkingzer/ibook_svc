@@ -31,8 +31,7 @@ app.use(session({
 //สร้างserver
 app.use(router_page); 
 app.use(router_adddata); 
-const PORT = process.env.PORT || 8888; // ใช้ค่าจาก Vercel หรือค่าเริ่มต้นถ้าหากไม่มี
-app.listen(PORT, () => {
+app.listen(8888, () => {
     console.log(`Server running on port ${PORT}`);
 });
 
