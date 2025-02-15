@@ -18,7 +18,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./bin/www"
+    "start": "node app.js"
+
   },
   "author": "warit",
   "license": "ISC"
