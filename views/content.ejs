@@ -53,7 +53,11 @@
                     <ul class="dropdown-menu dropdown-menu-end w-100">
                       <li><a class="dropdown-item text-center" href="/EDIT/<%=posts._id%>">EDIT POST</a></li>
                       <hr>
-                      <li><a class="dropdown-item text-center" href="/DELETE/<%=posts._id%>" onclick="return confirm('คุณต้องการลบโพสต์นี้จริง ๆ หรือไม่?');"><i class="fa-solid fa-arrow-right-from-bracket"></i> DELETE</a></li>
+                      <li>
+                        <a class="dropdown-item text-center" href="#" onclick="deletePost('<%=posts._id%>'); return false;">
+                            <i class="fa-solid fa-trash"></i> DELETE
+                        </a>
+                    </li>
                     </ul>
                   </div>
                 <% } %>    
@@ -170,4 +174,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+function deletePost(postId) {
+    if (confirm('คุณต้องการลบโพสต์นี้จริง ๆ หรือไม่?')) {
+        fetch(`/DELETE/${postId}`, {
+            method: 'POST'
+        }).then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  alert('โพสต์ถูกลบเรียบร้อยแล้ว');
+                  window.location.reload(); // รีโหลดหน้าหลังจากลบสำเร็จ
+              } else {
+                  alert('เกิดข้อผิดพลาด: ' + data.message);
+              }
+          }).catch(error => console.error('Error:', error));
+    }
+}
 </script>

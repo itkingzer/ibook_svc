@@ -128,7 +128,7 @@ router.post('/addPost',upload.single('upload_img'), async (req, res) => {
         user_id,
         title,
         description,
-        img: req.file.filename,
+        img: req.file ? req.file.filename : null,
       });
   
       await newPost.save(); // บันทึกโพสต์ในฐานข้อมูล
@@ -246,27 +246,38 @@ router.post('/profile/:userid/Save', upload2.single('upload_img'), async (req, r
 
 
 // Route สำหรับลบโพสต์
-
-
-
-router.get('/DELETE/:post_id', async (req, res) => {
-    const postId = req.params.post_id;
-
+router.post('/DELETE/:POST_ID', async (req, res) => {
     try {
-        // ลบโพสต์จากฐานข้อมูล
-        const deletedPost = await User_Post.findByIdAndDelete(postId);
-
-        if (!deletedPost) {
-            return res.status(404).json({ message: 'Post not found' });
+        const post = await User_Post.findById(req.params.POST_ID);
+        
+        if (!post) {
+            return res.status(404).send('Post not found');
         }
 
-        console.log(`Post with ID ${postId} deleted successfully.`);
-        res.redirect('/'); // หลังลบเสร็จกลับไปหน้าแรกหรือหน้าที่เหมาะสม
-    } catch (error) {
-        console.error('Error deleting post:', error);
-        res.status(500).json({ message: 'An error occurred while deleting the post.' });
+        if (post.user_id.toString() !== req.session.userId) {
+            return res.status(403).send('You are not authorized to delete this post');
+        }
+
+        if (post.img) {
+            const imagePath = path.resolve(__dirname, '..', 'public', 'asset', 'img', 'post_picture', post.img.trim());
+            console.log('🛠 Fixed Path:', imagePath);
+            fs.unlink(imagePath, (err) => {
+                if (err) {
+                    console.error('❌ Error deleting image:', err);
+                } else {
+                    console.log('✅ Image deleted successfully');
+                }
+            });
+        }
+
+        await User_Post.findByIdAndDelete(req.params.POST_ID);
+        res.json({ success: true, message: 'Post deleted successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Server error' });
     }
 });
+
 
 //แก้ไข้โพสต์
 router.post('/EDIT/:POST_ID/Update', upload.single('upload_img'), async (req, res) => {
