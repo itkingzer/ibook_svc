@@ -202,9 +202,7 @@ router.post('/profile/:userid/Save', upload2.single('upload_img'), async (req, r
     const userId = req.params.userid; // รับค่าจาก URL params
     const username = req.body.username;
 
-    if (!userId) {
-        return res.render('login');
-    }
+
 
     if (!username) {
         return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบถ้วน' });
