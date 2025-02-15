@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-
-const db_url = "mongodb://127.0.0.1:27017/user";
-
+require('dotenv').config(); 
+const db_url = "mongodb+srv://itkingzer:Wave0950955834@ifacesvc.rdufv.mongodb.net/?retryWrites=true&w=majority&appName=ifacesvc";
+const dbURI = process.env.DB_URI;
 // ฟังก์ชันสำหรับเชื่อมต่อ MongoDB
 const connectDB = async () => {
     try {
-        await mongoose.connect(db_url, {
+        await mongoose.connect(dbURI, {
             serverSelectionTimeoutMS: 5000, // Timeout หากไม่สามารถเชื่อมต่อภายใน 5 วินาที
         });
         console.log("Connected to MongoDB successfully");
